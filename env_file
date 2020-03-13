@@ -1,0 +1,2 @@
+JWT_SECRET=secretkey
+LOG_LEVEL=DEBUG
