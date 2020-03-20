@@ -1,16 +1,15 @@
 # Deploying a Flask API
 
-This is the starter repo for the tutorial @ [Udacity Full Stack Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004): Server Deployment, Containerization, and Testing.
+This is the starter repo for the tutorial @ [Deploy A Simple Flask API To Kubernetes Using EKS](medium.com): for CI/CD with testing.
 
-In this project you will containerize and deploy a Flask API to a Kubernetes cluster using Docker, AWS EKS, CodePipeline, and CodeBuild.
+In this tutorial you will containerize and deploy a Flask API to a Kubernetes cluster using Docker, AWS EKS, CodePipeline, and CodeBuild.
 
-The Flask app that will be used for this project consists of a simple API with three endpoints:
+This Flask api consists of an API with two endpoints:
 
-- `GET '/'`: This is a simple health check, which returns the response 'Healthy'. 
-- `POST '/auth'`: This takes a email and password as json arguments and returns a JWT based on a custom secret.
-- `GET '/contents'`: This requires a valid JWT, and returns the un-encrpyted contents of that token. 
+- `GET '/'` 
+- `POST '/data'`
 
-The app relies on a secret set as the environment variable `JWT_SECRET` to produce a JWT. The built-in Flask server is adequate for local development, but not production, so you will be using the production-ready [Gunicorn](https://gunicorn.org/) server when deploying the app.
+The built-in Flask server is adequate for local development, but not production, so you will be using the production-ready [Gunicorn](https://gunicorn.org/) server when deploying the app.
 
 ## Dependencies
 
@@ -24,7 +23,7 @@ The app relies on a secret set as the environment variable `JWT_SECRET` to produ
 
 Deploying the app involves several steps:
 
-1. Write a Dockerfile for a simple-flask-api
+1. Write a Dockerfile for the flask-api
 2. Build and test the container locally
 3. Create an EKS cluster
 4. Store a secret using AWS Parameter Store

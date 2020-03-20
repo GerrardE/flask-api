@@ -1,39 +1,41 @@
 '''
-Tests for simple-flask-app
+Tests for flask-api
 '''
 import os
 import json
 import pytest
 import main
 
-SECRET = 'TestSecret'
-TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjEzMDY3OTAsIm5iZiI6MTU2MDA5NzE5MCwiZW1haWwiOiJ3b2xmQHRoZWRvb3IuY29tIn0.IpM4VMnqIgOoQeJxUbLT-cRcAjK41jronkVrqRLFmmk'
-EMAIL = 'test@gmail.com'
-PASSWORD = 'testpassword'
 
 @pytest.fixture
 def client():
-    os.environ['JWT_SECRET'] = SECRET
     main.APP.config['TESTING'] = True
     client = main.APP.test_client()
 
     yield client
 
 
-
-def test_health(client):
+def test_home(client):
     response = client.get('/')
+    response_copy = {
+        "status": 200,
+        "message": "You successfully hit the /home route"
+    }
     assert response.status_code == 200
-    assert response.json == 'Healthy'
+    assert response.json == response_copy
 
 
-def test_auth(client):
-    body = {'email': EMAIL,
-            'password': PASSWORD}
-    response = client.post('/auth', 
-                           data=json.dumps(body),
+def test_data(client):
+    body = {
+        "test": "test_body"
+    }
+    response_copy = {
+        "status": 200,
+        "message": "You successfully hit the /data route"
+    }
+    response = client.post('/data',
+                           data=body,
                            content_type='application/json')
-
     assert response.status_code == 200
-    token = response.json['token']
-    assert token is not None
+    response_data = response.json
+    assert response_data == response_copy

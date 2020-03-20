@@ -1,5 +1,3 @@
-pyjwt
 flask
 gunicorn
 pytest
-python-jose

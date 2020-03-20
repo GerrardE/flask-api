@@ -4,7 +4,7 @@ version: 0.2
 
 env:
   parameter-store:         
-    JWT_SECRET: JWT_SECRET
+    
 phases:
   install:
     commands:
@@ -16,7 +16,7 @@ phases:
   pre_build:
       commands:
         - TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-        - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' simple_jwt_api.yml
+        - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' flask_api.yml
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
         - pip install --upgrade pip
@@ -35,8 +35,8 @@ phases:
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
-      - kubectl apply -f simple_jwt_api.yml
-      - printf '[{"name":"simple_jwt_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
+      - kubectl apply -f flask_api.yml
+      - printf '[{"name":"flask_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
       - pwd
       - ls
 artifacts:
